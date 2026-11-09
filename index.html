@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>mnanak na qalang 數位繪本</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="stage">
+  <div class="bookwrap" id="bookwrap">
+    <div id="book" class="book" role="region" aria-roledescription="繪本" aria-label="數位繪本，共 20 頁" tabindex="0">
+      <div id="loading" class="overlay" role="status" hidden>
+        <span class="spinner" aria-hidden="true"></span><span id="loadingText">載入中…</span>
+      </div>
+      <div id="error" class="overlay err" role="alert" hidden>
+        <p id="errorMsg">載入失敗</p>
+        <button id="retry" type="button">重試</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="meta">
+    <div class="progress" aria-hidden="true"><div id="progressFill"></div></div>
+    <p id="counter" class="counter" aria-live="polite">第 1 頁／共 20 頁</p>
+    <p id="notice" class="notice" role="status" aria-live="polite">點選頁面左右兩側、拖曳滑動，或按鍵盤 ← → 翻頁；空白鍵播放／暫停</p>
+  </div>
+</main>
+
+<nav class="bar" aria-label="繪本控制">
+  <button id="prev" type="button" aria-label="上一頁">‹ 上一頁</button>
+  <button id="next" type="button" aria-label="下一頁">下一頁 ›</button>
+  <button id="playpause" type="button" aria-label="播放／暫停" aria-pressed="false">播放／暫停</button>
+  <button id="read" type="button" aria-label="朗讀">朗讀</button>
+  <button id="mute" type="button" aria-label="靜音" aria-pressed="false">靜音</button>
+</nav>
+
+<audio id="speech" preload="none"></audio>
+<audio id="music" preload="none" loop></audio>
+
+<aside id="debug" class="debug" hidden aria-label="除錯資訊"><pre id="debugText"></pre></aside>
+
+<script src="script.js"></script>
+</body>
+</html>
