@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>mnanak na qalang 數位繪本</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="stage">
+  <div id="book" class="book" role="region" aria-roledescription="繪本" aria-label="數位繪本，共 20 頁" tabindex="0"></div>
+  <p id="hint" class="hint">點選頁面左右兩側、拖曳滑動，或按鍵盤 ← → 翻頁</p>
+</main>
+
+<nav class="bar" aria-label="繪本控制">
+  <button id="prev" type="button" aria-label="上一頁">‹ 上一頁</button>
+  <span id="counter" class="counter" aria-live="polite">1 / 20</span>
+  <button id="next" type="button" aria-label="下一頁">下一頁 ›</button>
+  <button id="replay" type="button" aria-label="重播這一頁的旁白">重播旁白</button>
+  <button id="mute" type="button" aria-label="靜音" aria-pressed="false">靜音</button>
+</nav>
+
+<script src="script.js"></script>
+</body>
+</html>
