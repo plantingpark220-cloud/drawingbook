@@ -1,0 +1,100 @@
+:root{
+  --night:#1b1a2e;
+  --paper:#efe2c4;
+  --ember:#c2492f;
+  --ink:#f6ecd6;
+  --bar-h:64px;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{
+  background:radial-gradient(ellipse at 50% 30%,#2c2a48 0%,var(--night) 70%);
+  color:var(--ink);
+  font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  padding-top:env(safe-area-inset-top,0);
+}
+.stage{
+  flex:1;min-height:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:12px;
+}
+/* 書本永遠維持 4:3，依視窗自動縮放（手機直式、橫式都適用） */
+.book{
+  position:relative;
+  aspect-ratio:4/3;
+  width:min(100%, calc((100dvh - var(--bar-h) - 56px - env(safe-area-inset-bottom,0px)) * 4 / 3));
+  perspective:2400px;
+  border-radius:4px;
+  box-shadow:0 18px 50px rgba(0,0,0,.55);
+  touch-action:pan-y;
+  cursor:pointer;
+  outline-offset:6px;
+  user-select:none;-webkit-user-select:none;
+}
+.leaf{
+  position:absolute;inset:0;
+  transform-origin:left center;
+  transform-style:preserve-3d;
+  transition:transform .95s cubic-bezier(.5,.05,.2,1), opacity .05s linear .9s;
+  pointer-events:none;
+}
+.leaf.flipped{transform:rotateY(-180deg);opacity:0}
+.leaf:not(.flipped){opacity:1;transition:transform .95s cubic-bezier(.5,.05,.2,1), opacity 0s}
+.face{
+  position:absolute;inset:0;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  overflow:hidden;border-radius:2px;
+}
+.front img{width:100%;height:100%;display:block;object-fit:cover;-webkit-user-drag:none}
+.back{
+  transform:rotateY(180deg);
+  background:linear-gradient(90deg,#d9c9a3,var(--paper) 40%,#e8d9b8);
+}
+/* 翻頁時，書頁上的陰影，讓它看起來有厚度 */
+.shade{position:absolute;inset:0;pointer-events:none;opacity:0;
+  background:linear-gradient(90deg,rgba(0,0,0,.55),rgba(0,0,0,0) 70%)}
+.leaf.turning .front .shade{animation:shade .95s ease-in-out}
+@keyframes shade{0%{opacity:0}40%{opacity:.8}100%{opacity:0}}
+/* 書脊 */
+.book::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:3.5%;z-index:50;pointer-events:none;
+  background:linear-gradient(90deg,rgba(0,0,0,.45),rgba(0,0,0,0));
+}
+.hint{margin:12px 0 0;font-size:.85rem;opacity:.7;text-align:center;transition:opacity .6s}
+.hint.gone{opacity:0}
+
+.bar{
+  height:calc(var(--bar-h) + env(safe-area-inset-bottom,0px));
+  padding:0 12px env(safe-area-inset-bottom,0px);
+  display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:nowrap;
+  background:rgba(0,0,0,.35);
+  border-top:1px solid rgba(246,236,214,.15);
+}
+.bar button{
+  min-height:44px;min-width:44px;padding:0 14px;
+  font:inherit;font-size:.95rem;color:var(--ink);
+  background:rgba(246,236,214,.08);
+  border:1px solid rgba(246,236,214,.35);border-radius:8px;
+  cursor:pointer;white-space:nowrap;
+}
+.bar button:hover{background:rgba(246,236,214,.18)}
+.bar button:disabled{opacity:.35;cursor:default}
+.bar button[aria-pressed="true"]{background:var(--ember);border-color:var(--ember)}
+button:focus-visible,.book:focus-visible{outline:3px solid #ffd27a}
+.counter{min-width:64px;text-align:center;font-variant-numeric:tabular-nums}
+
+@media (max-width:560px){
+  .stage{padding:8px 0}
+  .book{width:min(100%, calc((100dvh - var(--bar-h) - 48px - env(safe-area-inset-bottom,0px)) * 4 / 3));border-radius:0}
+  .bar{gap:5px;padding-left:6px;padding-right:6px}
+  .bar button{padding:0 9px;font-size:.85rem}
+  .counter{min-width:52px;font-size:.9rem}
+  .hint{font-size:.75rem;padding:0 12px}
+}
+@media (max-height:420px){ .hint{display:none} }
+@media (prefers-reduced-motion:reduce){
+  .leaf,.leaf:not(.flipped){transition:none}
+  .leaf.turning .front .shade{animation:none}
+}
